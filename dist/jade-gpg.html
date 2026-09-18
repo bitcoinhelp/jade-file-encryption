@@ -142,14 +142,14 @@ footer ul { padding-left: 18px; margin: 6px 0; }
   </details>
 
   <footer>
-    <strong>What this page does</strong>
+    <strong>How this is intended to work</strong>
     <ul>
-      <li>Sends Jade four commands: version info, unlock, fetch the file public key, and one ECDH call per decryption. Jade returns a public key and a per-file shared secret. The private key is not part of the protocol and is never sent to the page.</li>
-      <li>Unlocking Jade with your PIN is the only approval. In current firmware the decrypt call shows no confirmation screen on Jade. While Jade is unlocked and plugged in, other software on this computer could use it the same way. Disconnect when you are done.</li>
-      <li>Relays Jade's PIN handshake to Blockstream's pinserver during unlock. That is the only network request in this page's code; you can confirm it in your browser's network tab. Files and their decrypted contents are handled in this tab.</li>
-      <li>Writes standard OpenPGP files. GnuPG recognises them, and GnuPG with <a href="https://github.com/romanz/trezor-agent" target="_blank" rel="noopener">jade-agent</a> should be able to open them without this page. That recovery path has not yet been tested on hardware.</li>
-      <li>Derives the key from your wallet seed <em>and</em> its BIP39 passphrase, if you use one. A wallet restored without the passphrase gets a different key and cannot open your files.</li>
-      <li>Needs Web Serial, which Chrome, Edge and Brave provide on desktop. Safari and Firefox do not.</li>
+      <li>Jade derives a dedicated file key from your wallet seed. The page asks Jade for the public half and, for each decryption, one shared secret. The private half is not part of the protocol and is not meant to reach the page.</li>
+      <li>Your PIN is the approval. Unlocking Jade is what lets the page ask for shared secrets; in current firmware the decrypt call itself shows no confirmation on Jade. Disconnect when you are done, because other software on this computer could use an unlocked Jade the same way.</li>
+      <li>The page is meant to work offline. The one network request in its code relays Jade's PIN handshake to Blockstream's pinserver during unlock. You can confirm that in your browser's network tab.</li>
+      <li>Files are written as standard OpenPGP so they do not depend on this page. GnuPG recognises them, and GnuPG with <a href="https://github.com/romanz/trezor-agent" target="_blank" rel="noopener">jade-agent</a> is intended to open them. That recovery path has not yet been tested on hardware.</li>
+      <li>Recovery is the wallet. The same seed, and the same BIP39 passphrase if you use one, gives the same key on any Jade. A wallet restored without the passphrase gets a different key.</li>
+      <li>It needs Web Serial, which Chrome, Edge and Brave provide on desktop. Safari and Firefox do not.</li>
     </ul>
     <p>Jade File Encryption v0.1.0, experimental. Bundles OpenPGP.js 6.3.1 (LGPL), checked byte for byte against the npm release. Source and checksums are published alongside this file; compare its SHA-256 with the published one before use.</p>
   </footer>
