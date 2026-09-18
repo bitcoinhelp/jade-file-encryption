@@ -1,11 +1,11 @@
-// Bundle src/ + vendor/openpgp.min.js into one self-contained dist/jade-gpg.html.
+// Bundle src/ + vendor/openpgp.min.js into one self-contained docs/jade-gpg.html.
 // Each ES module is wrapped in its own function scope; imports become
 // destructuring from the already-built module object.
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 
-// sha256 of dist/openpgp.min.js from the openpgp@6.3.1 npm tarball (registry
+// sha256 of docs/openpgp.min.js from the openpgp@6.3.1 npm tarball (registry
 // integrity sha512-7oSPvmlKPojxFoyelT5DWPIAVmqWZh4qU/5pO6bdoShEtRpCw9Sye9IXUQj6EFM3XpgGssqccAr705YtTcLNQw==).
 const OPENPGP_VERSION = '6.3.1';
 const OPENPGP_SHA256 = '9736f49e81790af972029cd8416a8f9e5be7c4bddfb041676ab93fcad8332f5e';
@@ -40,9 +40,9 @@ put('/*{{OPENPGP}}*/', openpgp);
 put('/*{{APP}}*/', app);
 put('{{VERSION}}', VERSION);
 put('{{OPENPGP_VERSION}}', OPENPGP_VERSION);
-fs.mkdirSync(path.join(root, 'dist'), { recursive: true });
-fs.writeFileSync(path.join(root, 'dist/jade-gpg.html'), html);
-fs.writeFileSync(path.join(root, 'dist/index.html'), html);
+fs.mkdirSync(path.join(root, 'docs'), { recursive: true });
+fs.writeFileSync(path.join(root, 'docs/jade-gpg.html'), html);
+fs.writeFileSync(path.join(root, 'docs/index.html'), html);
 const pageHash = crypto.createHash('sha256').update(html).digest('hex');
-fs.writeFileSync(path.join(root, 'dist/SHA256SUMS'), `${pageHash}  jade-gpg.html\n${pageHash}  index.html\n`);
-console.log(`dist/jade-gpg.html v${VERSION} ${(html.length / 1024).toFixed(0)} KB\nsha256 ${pageHash}\nopenpgp.js ${OPENPGP_VERSION} verified`);
+fs.writeFileSync(path.join(root, 'docs/SHA256SUMS'), `${pageHash}  jade-gpg.html\n${pageHash}  index.html\n`);
+console.log(`docs/jade-gpg.html v${VERSION} ${(html.length / 1024).toFixed(0)} KB\nsha256 ${pageHash}\nopenpgp.js ${OPENPGP_VERSION} verified`);

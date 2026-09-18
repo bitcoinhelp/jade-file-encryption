@@ -5,7 +5,7 @@
   "scripts": {
     "test": "node test/vectors.js && node test/e2e.js",
     "build": "node build.js",
-    "serve": "python3 -m http.server 4180 --directory dist"
+    "serve": "python3 -m http.server 4180 --directory docs"
   },
   "version": "0.1.0",
   "license": "MIT"

@@ -6,7 +6,7 @@ A single HTML file that encrypts and decrypts your own files with a Blockstream 
 
 ## Use
 
-1. Open `dist/jade-gpg.html` in Chrome, Edge or Brave on a desktop computer. Either open the file straight from disk or serve it locally (`npm run serve`, then http://localhost:4180).
+1. Open `docs/jade-gpg.html` in Chrome, Edge or Brave on a desktop computer. Either open the file straight from disk or serve it locally (`npm run serve`, then http://localhost:4180).
 2. Connect Jade over USB and enter your PIN on the device.
 3. Drop files. A plain file is encrypted and saved as `name.gpg`. An encrypted file (`.gpg` or `.asc`) is decrypted and saved under its original name.
 4. Disconnect when you are done.
@@ -15,7 +15,7 @@ There is no setup and nothing to remember. The same wallet on any Jade opens the
 
 ## Before you trust it with anything
 
-- **Verify the file you were given.** Compare its SHA-256 with `dist/SHA256SUMS` from the source repository. Do not trust a copy from a URL you cannot tie back to the source.
+- **Verify the file you were given.** Compare its SHA-256 with `docs/SHA256SUMS` from the source repository. Do not trust a copy from a URL you cannot tie back to the source.
 - **Test recovery first.** Encrypt a throwaway file, wipe or use a second Jade, restore the wallet, decrypt. Then and only then encrypt something real.
 - **BIP39 passphrase.** The key depends on the seed and the passphrase, if your wallet uses one. Restoring without the passphrase gives a different key and your files will not open.
 - **The PIN is the approval.** In the current Jade firmware the decrypt step (`get_identity_shared_key`) does not show a confirmation screen; only `sign_identity` does. While Jade is unlocked and plugged in, any software with access to that USB port could decrypt files made with this key. Disconnect when you finish.
@@ -61,7 +61,7 @@ vendor/openpgp.min.js   OpenPGP.js 6.3.1 (LGPL), verified against the npm releas
 test/softjade.js        software Jade from the firmware's SLIP-0013 test mnemonic
 test/vectors.js         checks softjade against Jade's test_data/identity_*.json
 test/e2e.js             encrypt/decrypt round trips, GnuPG cross-checks, openpgp.js cross-check, negative cases
-build.js                inlines everything into dist/jade-gpg.html, refuses a tampered openpgp.js, writes dist/SHA256SUMS
+build.js                inlines everything into docs/jade-gpg.html, refuses a tampered openpgp.js, writes docs/SHA256SUMS
 ```
 
 `npm run build` is deterministic: the same sources produce the same file and hash. `npm test` needs `gpg` on PATH and the Jade firmware repo at `~/Jade` (override with `JADE_TEST_DATA`).
