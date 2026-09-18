@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
 
-// sha256 of docs/openpgp.min.js from the openpgp@6.3.1 npm tarball (registry
+// sha256 of dist/openpgp.min.js from the openpgp@6.3.1 npm tarball (registry
 // integrity sha512-7oSPvmlKPojxFoyelT5DWPIAVmqWZh4qU/5pO6bdoShEtRpCw9Sye9IXUQj6EFM3XpgGssqccAr705YtTcLNQw==).
 const OPENPGP_VERSION = '6.3.1';
 const OPENPGP_SHA256 = '9736f49e81790af972029cd8416a8f9e5be7c4bddfb041676ab93fcad8332f5e';
