@@ -31,13 +31,11 @@ if (openpgpHash !== OPENPGP_SHA256) throw new Error(`vendor/openpgp.min.js sha25
 if (!openpgp.startsWith(`/*! OpenPGP.js v${OPENPGP_VERSION}`)) throw new Error('vendor/openpgp.min.js is not the pinned version');
 const VERSION = JSON.parse(read('package.json')).version;
 const css = read('src/styles.css');
-const mark = 'data:image/png;base64,' + fs.readFileSync(path.join(root, 'src/mark.png')).toString('base64');
 for (const [label, text] of [['app', app], ['openpgp', openpgp]]) if (text.includes('</script')) throw new Error(label + ' contains </script');
 
 let html = read('src/index.html');
 const put = (tag, val) => { if (!html.includes(tag)) throw new Error('missing ' + tag); html = html.split(tag).join(val); };
 put('/*{{CSS}}*/', css);
-put('/*{{MARK}}*/', mark);
 put('/*{{OPENPGP}}*/', openpgp);
 put('/*{{APP}}*/', app);
 put('{{VERSION}}', VERSION);
