@@ -2,6 +2,8 @@
 
 **Experimental. Do not use for real files.** Not audited or reviewed by anyone but the author. Use it only with files you can afford to lose or expose. Before trying it seriously, restore your wallet on a second Jade and check that a test file decrypts.
 
+Live page: https://bitcoinhelp.github.io/jade-file-encryption/ (served from `docs/` in this repository; the same file is `docs/jade-gpg.html`, checksum in `docs/SHA256SUMS`).
+
 A single HTML file that encrypts and decrypts your own files with a Blockstream Jade. The page asks Jade for a public key and, per decryption, one ECDH shared secret; the private key is not part of the protocol.
 
 ## Use
