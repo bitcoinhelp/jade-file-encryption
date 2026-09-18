@@ -43,6 +43,8 @@ input:focus, textarea:focus { outline: none; border-color: var(--bs-accent); }
 .status.busy::before { content: ""; width: 12px; height: 12px; border: 2px solid var(--bs-fg-w40); border-top-color: var(--bs-accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .status.ok { color: var(--bs-success); }
+.status.ok-decrypt { color: var(--bs-accent); }
+.status.ok-encrypt { color: #D9D9D9; }
 .status.err { color: var(--bs-danger); }
 .banner { border-radius: var(--bs-r-btn); padding: 10px 12px; font-size: 13px; margin-bottom: 12px; }
 .banner.warn { background: var(--bs-warn-card-bg); border: 1px solid var(--bs-warn-card-border); }
@@ -74,9 +76,9 @@ footer ul { padding-left: 18px; margin: 6px 0; }
 .drop-big .drop-sub { font-size: 13px; color: var(--bs-fg-muted); }
 .drop-big.over { background: var(--bs-info-card-bg); border-color: var(--bs-accent); }
 .result-row { padding: 10px 12px; background: var(--bs-bg); border: 1px solid var(--bs-border-card); border-radius: 8px; }
-.lock-glyph { display: inline-flex; align-items: center; gap: 4px; color: var(--bs-fg-w40); flex: 0 0 auto; margin-right: 6px; }
-.lock-glyph.done .lock-to { color: var(--bs-success); }
-.lock-glyph.done .lock-from { color: var(--bs-fg-w40); }
-.lock-glyph.pending .lock-to { color: var(--bs-accent); }
-.lock-glyph.failed { color: var(--bs-danger); }
+.lock-glyph { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; flex: 0 0 auto; margin-right: 8px; color: var(--bs-fg-w40); background: var(--bs-bg-btn); }
+.lock-glyph.encrypt.done { color: #D9D9D9; background: #2A2C2F; }
+.lock-glyph.decrypt.done { color: var(--bs-accent); background: rgba(0, 188, 255, 0.18); }
+.lock-glyph.pending { color: var(--bs-fg-w60); }
+.lock-glyph.failed { color: var(--bs-danger); background: rgba(234, 82, 98, 0.15); }
 .lock-glyph svg { display: block; }

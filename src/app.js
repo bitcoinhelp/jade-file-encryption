@@ -96,14 +96,11 @@ async function disconnect(silent = false) {
 }
 
 // ---------- files ----------
-// Padlock glyphs for the history rows: open -> closed means encrypted, closed -> open means decrypted.
-const LOCK_CLOSED = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
-const LOCK_OPEN = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.7-1.5"/></svg>';
-const ARROW = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
-function lockGlyph(op) {
-  const [from, to] = op === 'encrypt' ? [LOCK_OPEN, LOCK_CLOSED] : [LOCK_CLOSED, LOCK_OPEN];
-  return `<span class="lock-from">${from}</span>${ARROW}<span class="lock-to">${to}</span>`;
-}
+// One badge per history row: filled closed padlock on green for encrypted,
+// outlined open padlock on blue for decrypted.
+const LOCK_CLOSED = '<svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4" fill="none"/></svg>';
+const LOCK_OPEN = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.7-1.5"/></svg>';
+function lockGlyph(op) { return op === 'encrypt' ? LOCK_CLOSED : LOCK_OPEN; }
 function resultRow(name, size) {
   const row = document.createElement('div');
   row.className = 'row between result-row';
@@ -119,7 +116,7 @@ function resultRow(name, size) {
   return { row, status: left.querySelector('.status'), actions: right, glyph: left.querySelector('.lock-glyph') };
 }
 function setRowStatus(r, text, kind) { r.status.textContent = text; r.status.className = 'status' + (kind ? ' ' + kind : ''); }
-function setRowOp(r, op, state) { r.glyph.innerHTML = lockGlyph(op); r.glyph.className = 'lock-glyph ' + (state || ''); }
+function setRowOp(r, op, state) { r.glyph.innerHTML = lockGlyph(op); r.glyph.className = `lock-glyph ${op} ${state || ''}`; }
 
 async function handleFiles(files) {
   if (!state.unlocked) { setStatus('connect-status', 'Connect and unlock your Jade first', 'err'); return; }
@@ -137,7 +134,7 @@ async function handleFile(file) {
         () => setRowStatus(r, 'Jade locked itself. Enter your PIN on Jade, then it will retry', 'busy'));
       const outName = res.filename || file.name.replace(/\.(gpg|pgp|asc)$/i, '') || 'decrypted';
       setRowOp(r, 'decrypt', 'done');
-      setRowStatus(r, `Decrypted → ${outName} (${kb(res.data.length)})`, 'ok');
+      setRowStatus(r, `Decrypted → ${outName} (${kb(res.data.length)})`, 'ok-decrypt');
       addSave(r, outName, res.data);
       log(`decrypted ${file.name} → ${outName}`);
     } else {
@@ -146,7 +143,7 @@ async function handleFile(file) {
       const out = await ops.encryptFile({ identity: state.identity, bytes, filename: file.name });
       const outName = file.name + '.gpg';
       setRowOp(r, 'encrypt', 'done');
-      setRowStatus(r, `Encrypted → ${outName} (${kb(out.length)})`, 'ok');
+      setRowStatus(r, `Encrypted → ${outName} (${kb(out.length)})`, 'ok-encrypt');
       addSave(r, outName, out);
       log(`encrypted ${file.name} → ${outName}`);
     }
