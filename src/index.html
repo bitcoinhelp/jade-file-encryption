@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jade File Encryption</title>
+<meta name="description" content="Encrypt and decrypt your files with a Blockstream Jade. Runs entirely in your browser.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300BCFF'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='%23121416' font-family='sans-serif' font-weight='700'>J</text></svg>">
+<style>
+/*{{CSS}}*/
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img class="mark" alt="" src="/*{{MARK}}*/">
+    <div>
+      <h1>Jade File Encryption</h1>
+      <p>Lock and unlock your files with your Jade. Nothing leaves this page.</p>
+    </div>
+  </header>
+
+  <div class="banner warn"><strong>Experimental.</strong> This tool has not been audited. Do not rely on it as the only copy of anything important, and keep an unencrypted backup until you have tested restoring your wallet and decrypting a file yourself.</div>
+  <div id="unsupported" class="banner warn hidden"></div>
+
+  <section class="card" id="card-connect">
+    <h2><span class="step">1</span>Connect Jade</h2>
+    <p class="hint">Plug in over USB, then unlock with your PIN when Jade asks.</p>
+    <div class="row between">
+      <div class="row">
+        <button id="btn-connect">Connect Jade</button>
+        <button id="btn-disconnect" class="secondary hidden">Disconnect</button>
+      </div>
+      <div id="device-info" class="mono hidden"></div>
+    </div>
+    <div id="connect-status" class="status"></div>
+  </section>
+
+  <section class="card" id="card-files">
+    <h2><span class="step">2</span>Files</h2>
+    <p class="hint" id="files-hint">Connect your Jade first.</p>
+    <label class="drop drop-big" id="drop">
+      <span class="drop-title">Drop files here</span>
+      <span class="drop-sub">or click to choose</span>
+      <input type="file" id="file-input" multiple>
+    </label>
+    <p class="hint" style="margin:10px 0 0">Plain files get encrypted. Encrypted files (<span class="mono">.gpg</span> or <span class="mono">.asc</span>) get decrypted.</p>
+  </section>
+
+  <section class="card hidden" id="card-history">
+    <div class="row between" style="margin-bottom:8px">
+      <h2 style="margin:0">History</h2>
+      <button id="btn-clear-history" class="link small">Clear</button>
+    </div>
+    <div id="results" class="stack"></div>
+  </section>
+
+  <details class="card">
+    <summary>Log</summary>
+    <div id="log" class="log"></div>
+  </details>
+
+  <footer>
+    <strong>How this stays safe</strong>
+    <ul>
+      <li>The key that unlocks your files lives only in Jade, derived from your wallet. Restore the same wallet on any Jade and your files open again.</li>
+      <li>Unlocking Jade with your PIN is the approval. While Jade is unlocked and plugged in, decryption does not ask for a further tap on the device, so disconnect when you are done.</li>
+      <li>The page makes no network requests except relaying Jade's PIN handshake to Blockstream's pinserver while unlocking. Save this page and open it from disk to use it offline.</li>
+      <li>Files are standard OpenPGP, the same format GnuPG produces. If this page ever goes away, GnuPG with <a href="https://github.com/romanz/trezor-agent" target="_blank" rel="noopener">jade-agent</a> can open them (see the README).</li>
+      <li>The key comes from your wallet seed <em>and</em> its BIP39 passphrase, if you use one. A wallet restored without the passphrase gets a different key and cannot open your files.</li>
+      <li>Works in Chrome, Edge and Brave on desktop (Web Serial). Safari and Firefox do not expose USB serial to web pages.</li>
+    </ul>
+    <p>Jade File Encryption v{{VERSION}}, experimental. OpenPGP.js {{OPENPGP_VERSION}} (LGPL) bundled and verified against the npm release. Source and checksums ship alongside this file; compare the SHA-256 of this file with the published one before use.</p>
+  </footer>
+</div>
+<script>
+/*{{OPENPGP}}*/
+</script>
+<script>
+/*{{APP}}*/
+</script>
+</body>
+</html>
