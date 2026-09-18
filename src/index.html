@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Jade File Encryption</title>
-<meta name="description" content="Encrypt and decrypt your files with a Blockstream Jade. Runs entirely in your browser.">
+<meta name="description" content="Experimental: encrypt and decrypt files with a Blockstream Jade in the browser. Test files only.">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%2300BCFF'/><text x='16' y='22' font-size='16' text-anchor='middle' fill='%23121416' font-family='sans-serif' font-weight='700'>J</text></svg>">
 <style>
 /*{{CSS}}*/
@@ -16,11 +16,11 @@
     <img class="mark" alt="" src="/*{{MARK}}*/">
     <div>
       <h1>Jade File Encryption</h1>
-      <p>Lock and unlock your files with your Jade. Nothing leaves this page.</p>
+      <p>Lock and unlock files with your Jade. Experimental: use test files only.</p>
     </div>
   </header>
 
-  <div class="banner warn"><strong>Experimental.</strong> This tool has not been audited. Do not rely on it as the only copy of anything important, and keep an unencrypted backup until you have tested restoring your wallet and decrypting a file yourself.</div>
+  <div class="banner warn"><strong>Experimental. Do not use for real files.</strong> This tool has not been audited or reviewed. Use it only with files you can afford to lose or expose. If you want to try it seriously, first restore your wallet on a second Jade and check that a test file decrypts.</div>
   <div id="unsupported" class="banner warn hidden"></div>
 
   <section class="card" id="card-connect">
@@ -61,16 +61,16 @@
   </details>
 
   <footer>
-    <strong>How this stays safe</strong>
+    <strong>What this page does</strong>
     <ul>
-      <li>The key that unlocks your files lives only in Jade, derived from your wallet. Restore the same wallet on any Jade and your files open again.</li>
-      <li>Unlocking Jade with your PIN is the approval. While Jade is unlocked and plugged in, decryption does not ask for a further tap on the device, so disconnect when you are done.</li>
-      <li>The page makes no network requests except relaying Jade's PIN handshake to Blockstream's pinserver while unlocking. Save this page and open it from disk to use it offline.</li>
-      <li>Files are standard OpenPGP, the same format GnuPG produces. If this page ever goes away, GnuPG with <a href="https://github.com/romanz/trezor-agent" target="_blank" rel="noopener">jade-agent</a> can open them (see the README).</li>
-      <li>The key comes from your wallet seed <em>and</em> its BIP39 passphrase, if you use one. A wallet restored without the passphrase gets a different key and cannot open your files.</li>
-      <li>Works in Chrome, Edge and Brave on desktop (Web Serial). Safari and Firefox do not expose USB serial to web pages.</li>
+      <li>Sends Jade four commands: version info, unlock, fetch the file public key, and one ECDH call per decryption. Jade returns a public key and a per-file shared secret. The private key is not part of the protocol and is never sent to the page.</li>
+      <li>Unlocking Jade with your PIN is the only approval. In current firmware the decrypt call shows no confirmation screen on Jade. While Jade is unlocked and plugged in, other software on this computer could use it the same way. Disconnect when you are done.</li>
+      <li>Relays Jade's PIN handshake to Blockstream's pinserver during unlock. That is the only network request in this page's code; you can confirm it in your browser's network tab. Files and their decrypted contents are handled in this tab.</li>
+      <li>Writes standard OpenPGP files. GnuPG recognises them, and GnuPG with <a href="https://github.com/romanz/trezor-agent" target="_blank" rel="noopener">jade-agent</a> should be able to open them without this page. That recovery path has not yet been tested on hardware.</li>
+      <li>Derives the key from your wallet seed <em>and</em> its BIP39 passphrase, if you use one. A wallet restored without the passphrase gets a different key and cannot open your files.</li>
+      <li>Needs Web Serial, which Chrome, Edge and Brave provide on desktop. Safari and Firefox do not.</li>
     </ul>
-    <p>Jade File Encryption v{{VERSION}}, experimental. OpenPGP.js {{OPENPGP_VERSION}} (LGPL) bundled and verified against the npm release. Source and checksums ship alongside this file; compare the SHA-256 of this file with the published one before use.</p>
+    <p>Jade File Encryption v{{VERSION}}, experimental. Bundles OpenPGP.js {{OPENPGP_VERSION}} (LGPL), checked byte for byte against the npm release. Source and checksums are published alongside this file; compare its SHA-256 with the published one before use.</p>
   </footer>
 </div>
 <script>

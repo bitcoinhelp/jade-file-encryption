@@ -1,8 +1,8 @@
 # Jade File Encryption
 
-**Experimental. Not audited. Keep an unencrypted backup of anything important until you have restored your wallet and decrypted a file yourself.**
+**Experimental. Do not use for real files.** Not audited or reviewed by anyone but the author. Use it only with files you can afford to lose or expose. Before trying it seriously, restore your wallet on a second Jade and check that a test file decrypts.
 
-A single HTML file that encrypts and decrypts your own files with a Blockstream Jade. Everything runs in the browser. The key is derived inside Jade from your wallet seed and never leaves the device.
+A single HTML file that encrypts and decrypts your own files with a Blockstream Jade. The page asks Jade for a public key and, per decryption, one ECDH shared secret; the private key is not part of the protocol.
 
 ## Use
 
@@ -25,7 +25,7 @@ There is no setup and nothing to remember. The same wallet on any Jade opens the
 
 - It cannot spend or expose your bitcoin. The page sends Jade four commands: version info, unlock, fetch the file public key, and the ECDH decrypt step. Nothing that signs a transaction or reads wallet addresses. Even a tampered copy of the page could not spend, because Jade shows every transaction on its own screen and waits for a tap.
 - It cannot learn your seed or PIN. The PIN handshake between Jade and Blockstream's blind pinserver is end-to-end encrypted; the page only relays it.
-- It makes no other network requests. No fonts, no CDN, no analytics. It works offline from disk.
+- The only network request in the page's code is the PIN handshake relay. No fonts, no CDN, no analytics. Check your browser's network tab to confirm.
 
 ## How the key works
 
